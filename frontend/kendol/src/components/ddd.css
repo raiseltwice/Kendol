@@ -1,0 +1,14 @@
+.react-pdf__Page__textContent {
+    position:absolute !important;
+    top:0% !important;
+    left:0% !important;
+    transform: translate(0%, 0%) !important;
+    color:black !important
+}
+.react-pdf__Page__canvas {
+    display:none !important;
+}
+
+.look-like-link:hover {
+	cursor:pointer;
+}

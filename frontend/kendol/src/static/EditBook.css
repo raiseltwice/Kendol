@@ -1,0 +1,19 @@
+
+.shadow-on-hover:hover {
+	box-shadow: 0px 0px 10px;
+}
+.update-book-control {
+	left: 80%;
+	top: 9.5%;
+	position: absolute;
+	margin-top: -10px;
+	margin-left: -10px;
+}
+.delete-book-control {
+	left: 80%;
+	top: 16%;
+	position: absolute;
+	margin-top: -10px;
+	margin-left: -10px;
+}
+
