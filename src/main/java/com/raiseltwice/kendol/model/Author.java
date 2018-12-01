@@ -1,4 +1,4 @@
-package com.raiseltwice.kendol.models;
+package com.raiseltwice.kendol.model;
 
 
 

@@ -1,6 +1,6 @@
-package com.raiseltwice.kendol.repos;
+package com.raiseltwice.kendol.repository;
 
-import com.raiseltwice.kendol.models.Genre;
+import com.raiseltwice.kendol.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
