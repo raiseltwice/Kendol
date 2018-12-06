@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
+@RequestMapping(path = "/api/progress")
 public class ProgressController {
 
     @Autowired

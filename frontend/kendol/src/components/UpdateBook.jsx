@@ -11,7 +11,6 @@ class UpdateBook extends Component {
 			genre: null,
 		};
 
-		this.onFormSubmit1 = this.onFormSubmit1.bind(this);
 		this.onFieldChange= this.onFieldChange.bind(this);
 		this.loadAuthorOptions = this.loadAuthorOptions.bind(this);
 		this.loadCurrentBook = this.loadCurrentBook.bind(this);
@@ -30,20 +29,8 @@ class UpdateBook extends Component {
 		this.loadAuthorOptions();
 	};
 	loadAuthorOptions = () => {
-		axios.get('http://localhost:8080/api/allAuthors')
+		axios.get('http://localhost:8080/api/author')
 			.then(response => this.setState({authors : response.data}))
-	};
-
-	onFormSubmit1 = () => {
-		let formData = new FormData();
-		formData.append("id", String(this.props.match.params.id));
-		formData.append("title", this.state.title);
-		formData.append("fullName", this.state.author);
-		formData.append("genreTitle", this.state.genre);
-		axios.post(
-			'http://localhost:8080/api/updateBook',
-			formData
-		).then(response => console.log(response))
 	};
 
 	onFormSubmit = e => {
@@ -57,8 +44,8 @@ class UpdateBook extends Component {
 		formData.append("title", this.state.title);
 		formData.append("author", this.state.author);
 		formData.append("genre", this.state.genre);
-		axios.post(
-			'http://localhost:8080/api/updateBook',
+		axios.put(
+			'http://localhost:8080/api/book',
 			formData
 		).catch(err => console.log(err))
 	};
@@ -66,11 +53,7 @@ class UpdateBook extends Component {
 
 	loadCurrentBook = () => {
 		axios.get(
-			'http://localhost:8080/api/getBook',{
-				params: {
-					id: String(this.props.match.params.id)
-				}
-			}
+			'http://localhost:8080/api/book/' + String(this.props.match.params.id)
 		).then(response => {
 			this.setState({
 				title: response.data.title,
@@ -80,12 +63,7 @@ class UpdateBook extends Component {
 			console.log(this.state);
 
 		}).catch(err => console.log(err))
-	}
-
-
-
-
-
+	};
 
 	render() {
 		return (
@@ -112,7 +90,7 @@ class UpdateBook extends Component {
 								       onChange={e => this.onFieldChange(e)} value={this.state.genre} />
 							</div>
 						</div><br/>
-						<button type="submit" className="btn btn-outline-secondary">Add</button>
+						<button type="submit" className="btn btn-outline-secondary">Update</button>
 					</form>
 				</div>
 			</div>
@@ -121,33 +99,3 @@ class UpdateBook extends Component {
 }
 
 export default UpdateBook;
-//
-// <div>
-// 	<div className="w-100 d-flex justify-content-center p-5 ">
-// 		<div className="form-group">
-// 			<form onSubmit={this.onFormSubmit1}>
-				{/*<h1>Book Upload</h1>*/}
-				{/*<div className="row">*/}
-					{/*<div className="col">*/}
-						{/*<input type="text" name="title" className="form-control"*/}
-						       {/*onChange={e => this.onFieldChange(e)} value={this.state.title} />*/}
-					{/*</div>*/}
-					{/*<div className="col">*/}
-						{/*<input list="data" name="author" className="form-control"*/}
-						       {/*onChange={e => this.onFieldChange(e)} value={this.state.author} />*/}
-						{/*<datalist id="data">*/}
-							{/*{this.state.authors.map(author =>*/}
-								{/*<option value={author.fullName} />*/}
-							{/*)}*/}
-						{/*</datalist>*/}
-					{/*</div>*/}
-					{/*<div className="col">*/}
-						{/*<input type="text" name="genre" className="form-control"*/}
-						       {/*onChange={e => this.onFieldChange(e)} value={this.state.genre} />*/}
-					{/*</div>*/}
-				{/*</div><br/>*/}
-// 				<button type="submit" className="btn btn-outline-secondary">Update</button>
-// 			</form>
-// 		</div>
-// 	</div>
-// </div>

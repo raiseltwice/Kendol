@@ -39,7 +39,7 @@ public class BookService {
             byte[] bytes = file.getBytes();
             System.out.println(file.getOriginalFilename());
             System.out.println(genreId + title + authorName);
-            Path path = Paths.get("C:\\Projects\\Kendol\\pdf_storage\\" + file.getOriginalFilename());
+            Path path = Paths.get("C:\\Projects\\KendolFinal\\pdf_storage\\" + file.getOriginalFilename());
             Files.write(path, bytes);
             Author author = authorRepository.findAuthorByFullName(authorName).orElse(new Author(authorName));
             book = bookRepository.save(new Book(title, path.toString(), author,

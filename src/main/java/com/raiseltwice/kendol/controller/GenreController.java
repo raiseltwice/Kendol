@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/genre")
 public class GenreController {
 
     @Autowired

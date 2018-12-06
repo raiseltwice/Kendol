@@ -15,7 +15,7 @@ export default class Library extends Component {
   }
 
   getBooks = () => {
-      fetch('http://localhost:8080/api/allBooks')
+      fetch('http://localhost:8080/api/book')
           .then(response => response.json())
           .then(responseJSON => this.setState({books : responseJSON}))
           .catch(error => console.log(error));

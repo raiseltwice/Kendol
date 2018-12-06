@@ -11,8 +11,8 @@ export default class BookPreview extends Component {
     }
 
     deleteBook = () => {
-	    axios.get(
-		    'http://localhost:8080/api/deleteBook',{
+	    axios.delete(
+		    'http://localhost:8080/api/book/',{
 			    params: {
 				    id: this.props.id
 			    }
@@ -24,9 +24,8 @@ export default class BookPreview extends Component {
 
       render() {
         return (
-          <div className="book text-center col m-3">
+          <div className="book-content text-center col m-3">
 	          <Link className="" to={`/books/` + this.props.id}>
-
 		          <img className="border" src={require("../../static/pdf_image.png")} />
 		          <Link className="" to={`/update/` + this.props.id}>
 			          <img className='update-book-control shadow-on-hover rounded-circle'  src={require("../../static/editbook.png")} width="25px" height="25px" />
@@ -35,7 +34,6 @@ export default class BookPreview extends Component {
 				          {this.props.title}
 			          </div>
               </Link>
-
 	          <img className='delete-book-control look-like-link shadow-on-hover rounded-circle' onClick={this.deleteBook} src={require("../../static/deletebook.png")} width="25px" height="25px" />
 
           </div>

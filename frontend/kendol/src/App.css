@@ -26,3 +26,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.pdf-content {
+	padding-right: 30%;
+}
+
+.popper-styles {
+	padding-top: 10%;
+	padding-right:10%;
+}

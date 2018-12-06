@@ -10,17 +10,13 @@ export default class AddNewImage extends Component {
 			title: null,
 			author: null,
 			authors: [],
-			genre: null,
-			ath: null,
-			gnr: null
+			genre: null
 		};
 		this.onFileChange = this.onFileChange.bind(this);
 		this.formUpload = this.formUpload.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onFieldChange= this.onFieldChange.bind(this);
 		this.loadAuthorOptions = this.loadAuthorOptions.bind(this);
-		this.onAuthorSubmit = this.onAuthorSubmit.bind(this);
-		this.onGenreSubmit = this.onGenreSubmit.bind(this);
 	}
 
 	onFormSubmit = e => {
@@ -35,7 +31,7 @@ export default class AddNewImage extends Component {
 		formData.append("author", this.state.author);
 		formData.append("genre", this.state.genre)
 		axios.post(
-			'http://localhost:8080/api/addBook',
+			'http://localhost:8080/api/book',
 			formData
 		).catch(err => console.log(err))
 	};
@@ -57,115 +53,46 @@ export default class AddNewImage extends Component {
 		this.loadAuthorOptions();
 	}
 	loadAuthorOptions = () => {
-		axios.get('http://localhost:8080/api/allAuthors')
+		axios.get('http://localhost:8080/api/author')
 			.then(response => this.setState({authors : response.data}))
-	}
-
-
-
-
-
-
-	//uni lab
-
-	onAuthorSubmit = e => {
-		e.preventDefault();
-		axios.get(
-			'http://localhost:8080/api/addAuthor',{
-			params: {
-				fullName: this.state.ath
-		}
-			}
-		);
-	};
-
-	onGenreSubmit = e => {
-		e.preventDefault();
-		axios.get(
-			'http://localhost:8080/api/addGenre',{
-				params: {
-					title: this.state.gnr
-				}
-			}
-		);
 	};
 
 	render() {
 		return (
 			<div>
-			<div className="w-100 d-flex justify-content-center p-5 ">
-				<div className="form-group">
-					<form onSubmit={this.onFormSubmit}>
-						<h1>Book Upload</h1>
-							<div className="row">
+				<div className="w-100 d-flex justify-content-center p-5 ">
+					<div className="form-group">
+						<form onSubmit={this.onFormSubmit}>
+							<h1>Book Upload</h1>
+								<div className="row">
+									<div className="col">
+									<input type="text" name="title" className="form-control"
+									       onChange={e => this.onFieldChange(e)} placeholder="Title" />
+								</div>
 								<div className="col">
-								<input type="text" name="title" className="form-control"
-								       onChange={e => this.onFieldChange(e)} placeholder="Title" />
-							</div>
-							<div className="col">
-								<input list="data" name="author" className="form-control"
-								       onChange={e => this.onFieldChange(e)} placeholder="Author" />
-								<datalist id="data">
-									{this.state.authors.map(author =>
-										<option value={author.fullName} />
-									)}
-								</datalist>
+									<input list="data" name="author" className="form-control"
+									       onChange={e => this.onFieldChange(e)} placeholder="Author" />
+									<datalist id="data">
+										{this.state.authors.map(author =>
+											<option value={author.fullName} />
+										)}
+									</datalist>
 
-							</div>
-							<div className="col">
-								<input type="text" name="genre" className="form-control"
-								       onChange={e => this.onFieldChange(e)} placeholder="Genre" />
-							</div>
+								</div>
+								<div className="col">
+									<input type="text" name="genre" className="form-control"
+									       onChange={e => this.onFieldChange(e)} placeholder="Genre" />
+								</div>
 
-							</div><br/>
-						<div className="custom-file">
-							<input type="file" className="" onChange={this.onFileChange} />
-						</div>
-						<button type="submit" className="btn btn-outline-secondary">Upload</button>
-					</form>
+								</div><br/>
+							<div className="custom-file">
+								<input type="file" className="" onChange={this.onFileChange} />
+							</div>
+							<button type="submit" className="btn btn-outline-secondary">Upload</button>
+						</form>
+					</div>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-				<div className="form-group">
-					<form onSubmit={this.onAuthorSubmit}>
-						<h1>Add author</h1>
-						<div className="row">
-							<div className="col">
-								<input type="text" name="ath" className="form-control"
-								       onChange={e => this.onFieldChange(e)} placeholder="Author full name" />
-							</div>
-
-
-						</div><br/>
-						<button type="submit" className="btn btn-outline-secondary">Add</button>
-					</form>
-				</div>
-				<br/>
-				<div className="form-group">
-					<form onSubmit={this.onGenreSubmit}>
-						<h1>Add genre</h1>
-						<div className="row">
-							<div className="col">
-								<input type="text" name="gnr" className="form-control"
-								       onChange={e => this.onFieldChange(e)} placeholder="Genre" />
-							</div>
-
-
-						</div><br/>
-						<button type="submit" className="btn btn-outline-secondary">Add</button>
-					</form>
-				</div>
-			</div>
-
-
 		);
 	}
 }
