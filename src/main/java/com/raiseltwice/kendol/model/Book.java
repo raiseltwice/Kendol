@@ -1,21 +1,22 @@
 package com.raiseltwice.kendol.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 public class Book implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotNull
     private String title;
 
-    @NotNull
     private String pdfPath;
+
+    private Integer isApproved;
+
+
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -31,6 +32,14 @@ public class Book implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIsApproved() {
+        return isApproved;
+    }
+
+    public void setIsApproved(Integer approved) {
+        isApproved = approved;
     }
 
     public String getTitle() {
@@ -65,14 +74,15 @@ public class Book implements Serializable {
         this.genre = genre;
     }
 
-    public Book(@NotNull String title, @NotNull String pdfPath, Author author, Genre genre) {
+    public Book(String title, String pdfPath, Author author, Genre genre, Integer isApproved) {
         this.title = title;
         this.pdfPath = pdfPath;
         this.author = author;
         this.genre = genre;
+        this.isApproved = isApproved;
     }
 
-//    @Autowired
+    //    @Autowired
 //    private AuthorRepository authorRepository;
 //    @Autowired
 //    private GenreRepository genreRepository;
@@ -84,5 +94,16 @@ public class Book implements Serializable {
 //    }
 
     public Book() {
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", pdfPath='" + pdfPath + '\'' +
+                ", author=" + author +
+                ", genre=" + genre +
+                '}';
     }
 }

@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Genre implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
@@ -35,7 +35,7 @@ public class Genre implements Serializable {
     public Genre() {
     }
 
-    public Genre(@NotNull String title) {
+    public Genre(String title) {
         this.title = title;
     }
 }

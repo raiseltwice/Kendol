@@ -58,7 +58,7 @@ public class BookUserProgress implements Serializable {
     public BookUserProgress() {
     }
 
-    public BookUserProgress(Book book, User user, @NotNull Integer progress) {
+    public BookUserProgress(Book book, User user, Integer progress) {
         this.book = book;
         this.user = user;
         this.progress = progress;

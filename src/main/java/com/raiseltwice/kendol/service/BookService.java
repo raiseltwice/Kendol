@@ -2,6 +2,7 @@ package com.raiseltwice.kendol.service;
 
 import com.raiseltwice.kendol.model.Author;
 import com.raiseltwice.kendol.model.Book;
+import com.raiseltwice.kendol.model.Genre;
 import com.raiseltwice.kendol.repository.AuthorRepository;
 import com.raiseltwice.kendol.repository.BookRepository;
 import com.raiseltwice.kendol.repository.GenreRepository;
@@ -11,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,21 +32,30 @@ public class BookService {
     @Autowired
     private GenreRepository genreRepository;
 
-    public Book save(MultipartFile file, String authorName, String genreId, String title) {
-        Book book = null;
+    public ResponseEntity<String> save(MultipartFile file, String authorName, String genreTitle, String title) {
         try {
             byte[] bytes = file.getBytes();
-            System.out.println(file.getOriginalFilename());
-            System.out.println(genreId + title + authorName);
             Path path = Paths.get("C:\\Projects\\KendolFinal\\pdf_storage\\" + file.getOriginalFilename());
             Files.write(path, bytes);
-            Author author = authorRepository.findAuthorByFullName(authorName).orElse(new Author(authorName));
-            book = bookRepository.save(new Book(title, path.toString(), author,
-                    genreRepository.findById(Integer.parseInt(genreId)).get()));
+            Author author = authorRepository.findAuthorByFullName(authorName).orElse(null);
+            if(author == null) {
+                author = authorRepository.save(new Author(authorName));
+            }
+            Genre genre = genreRepository.findGenreByTitle(genreTitle).orElse(null);
+            if(genre == null) {
+                genre = genreRepository.save(new Genre(genreTitle));
+            }
+            bookRepository.save(new Book(title, path.toString(), author, genre, null));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return book;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/plain"));
+        return new ResponseEntity<>("Success", headers, HttpStatus.OK);
+    }
+
+    public void saveBook(Book book) {
+        bookRepository.save(book);
     }
 
     public ResponseEntity<byte[]> getBookFile(String id) throws IOException {
@@ -60,10 +68,6 @@ public class BookService {
         byte[] content = Files.readAllBytes(path);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
-        // Here you have to set the actual filename of your pdf
-//        String filename = "output.pdf";
-//        headers.setContentDispositionFormData(filename, filename);
-//        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         return new ResponseEntity<>(content, headers, HttpStatus.OK);
     }
 
@@ -88,5 +92,13 @@ public class BookService {
 
     public Iterable<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    public Iterable<Book> findAllBooksToValidate() {
+        return bookRepository.findByIsApproved(null);
+    }
+
+    public Iterable<Book> findAllValidatedBooks() {
+        return bookRepository.findByIsApproved(1);
     }
 }

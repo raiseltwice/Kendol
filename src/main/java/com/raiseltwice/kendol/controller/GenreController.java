@@ -32,12 +32,12 @@ public class GenreController {
         return genreService.save(genre);
     }
 
-    @PutMapping
+    @PostMapping(path = "/update")
     public @ResponseBody Genre updateGenre(@RequestBody Genre genre){
         return genreService.save(genre);
     }
 
-    @DeleteMapping
+    @PostMapping(path = "/delete")
     public @ResponseBody void deleteGenre(@RequestBody Genre genre){
         genreService.delete(genre);
     }

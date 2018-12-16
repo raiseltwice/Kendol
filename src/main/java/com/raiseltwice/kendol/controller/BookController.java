@@ -20,9 +20,9 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping
-    public @ResponseBody void addBook(@RequestParam("file") MultipartFile file, @RequestParam("author") String authorName,
+    public @ResponseBody ResponseEntity<String> addBook(@RequestParam("file") MultipartFile file, @RequestParam("author") String authorName,
                                          @RequestParam("genre") String genreId, @RequestParam("title") String title) {
-        bookService.save(file, authorName, genreId, title);
+        return bookService.save(file, authorName, genreId, title);
     }
 
     @GetMapping(path = "/file")
@@ -35,13 +35,15 @@ public class BookController {
         return bookService.findById(id);
     }
 
-    @PutMapping
+    @PostMapping(path = "/update")
     public @ResponseBody void updateBook(@RequestParam("id") String id, @RequestParam("title") String title,
-                                         @RequestParam("author") String fullName, @RequestParam("genre") String genreTitle) {
+                                         @RequestParam("author") String fullName,
+                                         @RequestParam("genre") String genreTitle
+    ) {
         bookService.update(id, title, fullName, genreTitle);
     }
 
-    @DeleteMapping
+    @PostMapping(path = "/delete")
     public @ResponseBody void deleteBook(@RequestParam("id") String id){
         bookService.delete(id);
     }
@@ -49,6 +51,16 @@ public class BookController {
     @GetMapping
     public @ResponseBody Iterable<Book> getAllBooks() {
         return bookService.findAll();
+    }
+
+    @GetMapping(path = "/to-validate")
+    public @ResponseBody Iterable<Book> getAllBooksToValidate() {
+        return bookService.findAllBooksToValidate();
+    }
+
+    @GetMapping(path = "/validated")
+    public @ResponseBody Iterable<Book> getAllValidatedBooks() {
+        return bookService.findAllValidatedBooks();
     }
 
 }

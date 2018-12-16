@@ -1,46 +1,62 @@
 package com.raiseltwice.kendol.controller;
 
-
-import com.raiseltwice.kendol.model.Author;
+import com.raiseltwice.kendol.model.Role;
 import com.raiseltwice.kendol.model.User;
 import com.raiseltwice.kendol.repository.UserRepository;
-import com.raiseltwice.kendol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping(path = "/api/user")
-@CrossOrigin
+@Controller
+@RequestMapping("/user")
 public class UserController {
-
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @GetMapping
-    public @ResponseBody Iterable<User> getAllUsers(){
-        return userService.findAll();
+    public String userList(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+
+        return "userList";
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody Optional<User> getUserById(@PathVariable String id){
-        return userService.findById(id);
+    @GetMapping("{user}")
+    public String userEditForm(@PathVariable User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
+
+        return "userEdit";
     }
 
     @PostMapping
-    public @ResponseBody User addUser(@RequestBody User user){
-        return userService.save(user);
-    }
+    public String userSave(
+            @RequestParam String username,
+            @RequestParam Map<String, String> form,
+            @RequestParam("userId") User user
+    ) {
+        user.setUsername(username);
 
-    @PutMapping
-    public @ResponseBody User updateUser(@RequestBody User user){
-        return userService.save(user);
-    }
+        Set<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toSet());
 
-    @DeleteMapping
-    public @ResponseBody void deleteUser(@RequestBody User user){
-        userService.delete(user);
-    }
+        user.getRoles().clear();
 
+        for (String key : form.keySet()) {
+            if (roles.contains(key)) {
+                user.getRoles().add(Role.valueOf(key));
+            }
+        }
+
+        userRepository.save(user);
+
+        return "redirect:/user";
+    }
 }

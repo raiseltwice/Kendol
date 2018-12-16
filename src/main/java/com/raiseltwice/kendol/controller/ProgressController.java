@@ -31,12 +31,12 @@ public class ProgressController {
         return progressService.save(bookUserProgress);
     }
 
-    @PutMapping
+    @PostMapping(path = "/update")
     public @ResponseBody BookUserProgress updateProgress(@RequestBody BookUserProgress bookUserProgress){
         return progressService.save(bookUserProgress);
     }
 
-    @DeleteMapping
+    @PostMapping(path = "/delete")
     public @ResponseBody void deleteProgress(@RequestBody BookUserProgress bookUserProgress){
         progressService.delete(bookUserProgress);
     }

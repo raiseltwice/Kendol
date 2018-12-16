@@ -31,12 +31,12 @@ public class AuthorController {
         return authorService.save(author);
     }
 
-    @PutMapping
+    @PostMapping(path = "/update")
     public @ResponseBody Author updateAuthor(@RequestBody Author author){
         return authorService.save(author);
     }
 
-    @DeleteMapping
+    @PostMapping(path = "/delete")
     public @ResponseBody void deleteAuthor(@RequestBody Author author){
         authorService.delete(author);
     }

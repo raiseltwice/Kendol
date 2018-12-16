@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Author implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
 
@@ -37,4 +37,5 @@ public class Author implements Serializable {
     public Author(String fullName) {
         this.fullName = fullName;
     }
+
 }
