@@ -1,6 +1,7 @@
 package com.raiseltwice.kendol.controller;
 
 import com.raiseltwice.kendol.model.Book;
+import com.raiseltwice.kendol.repository.BookRepository;
 import com.raiseltwice.kendol.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
 
     @PostMapping
     public @ResponseBody ResponseEntity<String> addBook(@RequestParam("file") MultipartFile file, @RequestParam("author") String authorName,
@@ -61,6 +63,33 @@ public class BookController {
     @GetMapping(path = "/validated")
     public @ResponseBody Iterable<Book> getAllValidatedBooks() {
         return bookService.findAllValidatedBooks();
+    }
+
+    @PostMapping(path = "/search")
+    public @ResponseBody Iterable<Book> getBooksByCriterias(
+            @RequestParam("title") String title, @RequestParam("author") String author, @RequestParam("genre") String genre
+        ) {
+        if(title.equals("null") || title.equals("")) title = null;
+        if(author.equals("null") || author.equals("")) author = null;
+        if(genre.equals("null") || genre.equals("")) genre = null;
+
+        if(title != null && author == null && genre == null) {
+            return bookService.findByTitle(title);
+        }
+        if(title == null && author != null && genre == null) {
+            return bookService.findByAuthor(author);
+        }
+        if(title == null && author == null && genre != null) {
+            return bookService.findByGenre(genre);
+        }
+        if(title == null && author != null && genre != null) {
+            return bookService.findByAuthorAndGenre(author, genre);
+        }
+        if(title != null && author != null && genre != null) {
+            return bookService.findByTitleAndAuthorAndGenre(title, author, genre);
+        }
+
+        return bookService.findAllBooksToValidate();
     }
 
 }

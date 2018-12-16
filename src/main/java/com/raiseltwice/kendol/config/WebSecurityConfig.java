@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .authorizeRequests()
                     .antMatchers("/author").permitAll()
+                    .antMatchers("/genre").permitAll()
                 .and()
                     .authorizeRequests().antMatchers(HttpMethod.POST, "/api/book").authenticated()
                 .and()

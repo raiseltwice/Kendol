@@ -101,4 +101,33 @@ public class BookService {
     public Iterable<Book> findAllValidatedBooks() {
         return bookRepository.findByIsApproved(1);
     }
+
+    public Iterable<Book> findByTitleAndAuthorAndGenre(String title, String author, String genre) {
+        return bookRepository.findByIsApprovedAndTitleContainingAndAuthorIdEqualsAndGenreIdEquals(
+                1, title,
+                    authorRepository.findAuthorByFullName(author).get().getId(),
+                        genreRepository.findGenreByTitle(genre).get().getId());
+    }
+
+    public Iterable<Book> findByAuthorAndGenre(String author, String genre) {
+        return bookRepository.findByIsApprovedAndAuthorIdEqualsAndGenreIdEquals(
+                1,
+                authorRepository.findAuthorByFullName(author).get().getId(),
+                genreRepository.findGenreByTitle(genre).get().getId());
+    }
+
+    public Iterable<Book> findByTitle(String title) {
+        return bookRepository.findByIsApprovedAndTitleContaining(
+                1, title);
+    }
+
+    public Iterable<Book> findByAuthor(String author) {
+        return bookRepository.findByIsApprovedAndAuthorIdEquals(
+                1, authorRepository.findAuthorByFullName(author).get().getId());
+    }
+
+    public Iterable<Book> findByGenre(String genre) {
+        return bookRepository.findByIsApprovedAndGenreIdEquals(
+                1, genreRepository.findGenreByTitle(genre).get().getId());
+    }
 }
