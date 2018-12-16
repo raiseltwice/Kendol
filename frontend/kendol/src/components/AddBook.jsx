@@ -10,7 +10,9 @@ export default class AddNewImage extends Component {
 			title: null,
 			author: null,
 			authors: [],
-			genre: null
+			genre: null,
+			message: null,
+			messageType: null
 		};
 		this.onFileChange = this.onFileChange.bind(this);
 		this.formUpload = this.formUpload.bind(this);
@@ -32,8 +34,20 @@ export default class AddNewImage extends Component {
 		formData.append("genre", this.state.genre)
 		axios.post(
 			'http://localhost:8080/api/book',
-			formData
-		).catch(err => console.log(err))
+			formData,
+			{withCredentials: true}
+		).then(response => {
+			console.log(response);
+			if(response.status === 200) {
+				this.setState({
+					message: "Success",
+					messageType: "success"
+				})
+			}
+		}).catch(err => this.setState({
+			message: "Failure. Please, sign in.",
+			messageType: "danger"
+		}))
 	};
 
 	onFileChange = e => {
@@ -48,7 +62,7 @@ export default class AddNewImage extends Component {
 	onFieldChange = e => {
 		this.setState( {[e.target.name]: e.target.value })
 		console.log(this.state);
-	}
+	};
 	componentDidMount() {
 		this.loadAuthorOptions();
 	}
@@ -64,6 +78,9 @@ export default class AddNewImage extends Component {
 					<div className="form-group">
 						<form onSubmit={this.onFormSubmit}>
 							<h1>Book Upload</h1>
+							<div className={"alert alert-" + this.state.messageType}>
+								{this.state.message}
+							</div>
 								<div className="row">
 									<div className="col">
 									<input type="text" name="title" className="form-control"

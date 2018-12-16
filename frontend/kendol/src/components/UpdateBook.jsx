@@ -44,9 +44,10 @@ class UpdateBook extends Component {
 		formData.append("title", this.state.title);
 		formData.append("author", this.state.author);
 		formData.append("genre", this.state.genre);
-		axios.put(
-			'http://localhost:8080/api/book',
-			formData
+		axios.post(
+			'http://localhost:8080/api/book/update',
+			formData,
+			{headers: {"Content-Type": "multipart/form-data"}}
 		).catch(err => console.log(err))
 	};
 
@@ -71,6 +72,9 @@ class UpdateBook extends Component {
 				<div className="form-group">
 					<form onSubmit={this.onFormSubmit}>
 						<h1>Book Upload</h1>
+						<div className={"alert alert-" + this.state.messageType}>
+							{this.state.message}
+						</div>
 						<div className="row">
 							<div className="col">
 								<input type="text" name="title" className="form-control"

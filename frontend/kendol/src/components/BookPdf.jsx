@@ -74,7 +74,9 @@ export default  class BookPdf extends Component {
 			params: {
 				id: String(this.props.match.params.id)
 			},
-			responseType: 'blob'
+			responseType: 'blob',
+			withCredentials: true
+
 		}).then(response => {
 				this.setState({file: URL.createObjectURL(new Blob(
 						[response.data],

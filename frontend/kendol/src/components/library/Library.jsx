@@ -15,9 +15,11 @@ export default class Library extends Component {
   }
 
   getBooks = () => {
-      fetch('http://localhost:8080/api/book')
+      fetch('http://localhost:8080/api/book/validated', {
+	      credentials: 'include'
+      })
           .then(response => response.json())
-          .then(responseJSON => this.setState({books : responseJSON}))
+          .then(responseJSON => {console.log(responseJSON); this.setState({books : responseJSON})})
           .catch(error => console.log(error));
   };
   componentDidMount() {
