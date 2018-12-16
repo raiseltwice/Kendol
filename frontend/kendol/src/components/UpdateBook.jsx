@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import {withRouter} from "react-router-dom";
 
 class UpdateBook extends Component {
 	constructor(props) {
@@ -8,7 +9,10 @@ class UpdateBook extends Component {
 			title: null,
 			author: null,
 			authors: [],
+			genres: [],
 			genre: null,
+			message: null,
+			messageType: null
 		};
 
 		this.onFieldChange= this.onFieldChange.bind(this);
@@ -16,6 +20,7 @@ class UpdateBook extends Component {
 		this.loadCurrentBook = this.loadCurrentBook.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.formUpload = this.formUpload.bind(this);
+		this.loadGenreOptions = this.loadGenreOptions.bind(this);
 	}
 
 
@@ -33,6 +38,11 @@ class UpdateBook extends Component {
 			.then(response => this.setState({authors : response.data}))
 	};
 
+	loadGenreOptions = () => {
+		axios.get('http://localhost:8080/api/genre')
+			.then(response => this.setState({genres : response.data}))
+	};
+
 	onFormSubmit = e => {
 		e.preventDefault();
 		this.formUpload();
@@ -48,7 +58,11 @@ class UpdateBook extends Component {
 			'http://localhost:8080/api/book/update',
 			formData,
 			{headers: {"Content-Type": "multipart/form-data"}}
-		).catch(err => console.log(err))
+		).then(response => { this.setState({
+					message: "Success", messageType:"success"
+				});
+				this.props.history.push('/books');
+			}).catch(err => console.log(err));
 	};
 
 
@@ -61,8 +75,6 @@ class UpdateBook extends Component {
 				author: response.data.author.fullName,
 				genre: response.data.genre.title
 			});
-			console.log(this.state);
-
 		}).catch(err => console.log(err))
 	};
 
@@ -90,8 +102,13 @@ class UpdateBook extends Component {
 								</datalist>
 							</div>
 							<div className="col">
-								<input type="text" name="genre" className="form-control"
+								<input list="data" name="genre" className="form-control"
 								       onChange={e => this.onFieldChange(e)} value={this.state.genre} />
+								<datalist id="data">
+									{this.state.genres.map(genre =>
+										<option value={genre.title} />
+									)}
+								</datalist>
 							</div>
 						</div><br/>
 						<button type="submit" className="btn btn-outline-secondary">Update</button>
@@ -102,4 +119,4 @@ class UpdateBook extends Component {
 	}
 }
 
-export default UpdateBook;
+export default withRouter(UpdateBook);

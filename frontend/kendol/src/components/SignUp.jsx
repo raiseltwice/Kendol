@@ -13,7 +13,25 @@ export default class SignUp extends Component {
 		this.formUpload = this.formUpload.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onFieldChange= this.onFieldChange.bind(this);
+		this.getCurrentUser = this.getCurrentUser.bind(this);
 	}
+
+	getCurrentUser = () => {
+		axios.get(
+			'http://localhost:8080/api/user/username',
+			{withCredentials: true}
+		).then(response => {
+			if(response.data !== "") {
+				this.setState({username: response.data, linkTo: "/logout"})
+			}
+
+		});
+
+		axios.get(
+			'http://localhost:8080/api/user/authority',
+			{withCredentials: true}
+		).then(response => this.setState({authority: response.data}))
+	};
 
 	onFormSubmit = e => {
 		e.preventDefault();

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import BookPreview from "./library/BookPreview";
+import BookPreview from "./BookPreview";
 import axios from "axios";
 
 

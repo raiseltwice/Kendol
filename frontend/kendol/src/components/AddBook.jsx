@@ -11,6 +11,7 @@ export default class AddNewImage extends Component {
 			title: null,
 			author: null,
 			authors: [],
+			genres: [],
 			genre: null,
 			message: null,
 			messageType: null,
@@ -23,6 +24,7 @@ export default class AddNewImage extends Component {
 		this.onFieldChange= this.onFieldChange.bind(this);
 		this.loadAuthorOptions = this.loadAuthorOptions.bind(this);
 		this.getCurrentUser = this.getCurrentUser.bind(this);
+		this.loadGenreOptions = this.loadGenreOptions.bind(this);
 	}
 
 	getCurrentUser = () => {
@@ -80,17 +82,22 @@ export default class AddNewImage extends Component {
 
 	onFieldChange = e => {
 		this.setState( {[e.target.name]: e.target.value });
-		console.log(this.state);
 	};
 
 	componentDidMount() {
 		this.loadAuthorOptions();
+		this.loadGenreOptions();
 		this.getCurrentUser();
 	};
 
 	loadAuthorOptions = () => {
 		axios.get('http://localhost:8080/api/author')
 			.then(response => this.setState({authors : response.data}))
+	};
+
+	loadGenreOptions = () => {
+		axios.get('http://localhost:8080/api/genre')
+			.then(response => this.setState({genres : response.data}))
 	};
 
 	renderForm = () => {
@@ -108,9 +115,9 @@ export default class AddNewImage extends Component {
 								       onChange={e => this.onFieldChange(e)} placeholder="Title" />
 							</div>
 							<div className="col">
-								<input list="data" name="author" className="form-control"
+								<input list="author" name="author" className="form-control"
 								       onChange={e => this.onFieldChange(e)} placeholder="Author" />
-								<datalist id="data">
+								<datalist id="author">
 									{this.state.authors.map(author =>
 										<option value={author.fullName} />
 									)}
@@ -118,8 +125,13 @@ export default class AddNewImage extends Component {
 
 							</div>
 							<div className="col">
-								<input type="text" name="genre" className="form-control"
+								<input list="genre" name="genre" className="form-control"
 								       onChange={e => this.onFieldChange(e)} placeholder="Genre" />
+								<datalist id="genre">
+									{this.state.genres.map(genre =>
+										<option value={genre.title} />
+									)}
+								</datalist>
 							</div>
 
 						</div><br/>

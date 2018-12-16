@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import "../../static/Book.css";
-import "../../static/EditBook.css"
+import "../static/Book.css";
+import "../static/EditBook.css"
 
 import {Link} from "react-router-dom";
 import axios from "axios";
@@ -69,7 +69,7 @@ export default class BookPreview extends Component {
           <div className="book-content text-center col m-3">
 
 	          <Link className="" to={`/books/` + this.props.id}>
-		          <img className="border" src={require("../../static/pdf_image.png")} />
+		          <img className="border" src={require("../static/pdf_image.png")} />
 
 		          <div className="caption">
 				          {this.props.title}
@@ -78,13 +78,13 @@ export default class BookPreview extends Component {
 	          {this.state.authority === "ADMIN" ? <div>
 		          <Link className="" to={`/update/` + this.props.id}>
 			          <img className='update-book-control shadow-on-hover rounded-circle'
-			               src={require("../../static/editbook.png")} width="25px" height="25px" />
+			               src={require("../static/editbook.png")} width="25px" height="25px" />
 		          </Link>
 		          {this.props.parent === "validation" ? <img className='approve-book-control shadow-on-hover rounded-circle' onClick={this.approveBook}
-		                                                     src={require("../../static/approvedbook.png")} width="25px" height="25px" /> : null}
+		                                                     src={require("../static/approvedbook.png")} width="25px" height="25px" /> : null}
 
 		          <img className='delete-book-control look-like-link shadow-on-hover rounded-circle' onClick={this.deleteBook}
-		               src={require("../../static/deletebook.png")} width="25px" height="25px" />
+		               src={require("../static/deletebook.png")} width="25px" height="25px" />
 	          </div> : null}
 
 

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import {withRouter} from "react-router-dom";
 
-export default class SignIn extends Component {
+class SignIn extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -23,7 +24,7 @@ export default class SignIn extends Component {
 	formUpload = () => {
 		let formData = new FormData();
 		formData.set("username", this.state.username);
-		formData.append("password", this.state.password);
+		formData.set("password", this.state.password);
 		axios.post(
 			'http://localhost:8080/login',
 			formData,
@@ -35,6 +36,8 @@ export default class SignIn extends Component {
 		).then(response => {
 			if(response.data === "success") {
 				this.setState({messageType: "success", message: "Success"});
+				this.props.handleSignIn();
+				this.props.history.push('/books');
 			} else if (response.data === "password is incorrect") {
 				this.setState({messageType: "danger", message: "Password is incorrect"});
 			} else if (response.data === "such user doesn't exist") {
@@ -78,3 +81,5 @@ export default class SignIn extends Component {
 		);
 	}
 }
+
+export default withRouter(SignIn);
