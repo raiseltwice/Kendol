@@ -21,16 +21,26 @@ export default class SignIn extends Component {
 	};
 
 	formUpload = () => {
-		console.log(this.state);
 		let formData = new FormData();
 		formData.set("username", this.state.username);
 		formData.append("password", this.state.password);
-		console.log(formData);
 		axios.post(
 			'http://localhost:8080/login',
 			formData,
 			{withCredentials: true}
-		).then(response => console.log(response))
+		);
+		axios.post(
+			'http://localhost:8080/user/get',
+			formData
+		).then(response => {
+			if(response.data === "success") {
+				this.setState({messageType: "success", message: "Success"});
+			} else if (response.data === "password is incorrect") {
+				this.setState({messageType: "danger", message: "Password is incorrect"});
+			} else if (response.data === "such user doesn't exist") {
+				this.setState({messageType: "danger", message: "Such user doesn't exist"});
+			}
+		})
 	};
 
 	onFieldChange = e => {
@@ -44,7 +54,8 @@ export default class SignIn extends Component {
 				<div className="w-100 d-flex justify-content-center p-5 ">
 					<div className="form-group">
 						<form onSubmit={this.onFormSubmit}>
-							<h1>Sign Up</h1>
+							<h1>Sign In</h1>
+							<br/>
 							<div className={"alert alert-" + this.state.messageType}>
 								{this.state.message}
 							</div>

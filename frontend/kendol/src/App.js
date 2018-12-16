@@ -14,24 +14,27 @@ import UpdateBook from "./components/UpdateBook";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import BooksToValidate from "./components/BooksToValidate";
+import Logout from "./components/Logout";
 
 
 class App extends Component {
 
-  render() {
-	  library.add(faCheckCircle);
+
+	render() {
+
     return (
 
       <div className="App">
 	      <Navbar/>
 	      <Route exact path="/" component={Library} />
-		  <Route path="/addBook" component={AddBook}/>
+		  <Route path="/add-book" component={AddBook}/>
 		  <Route exact path="/books/" component={Library}/>
 	      <Route exact path="/validate-books/" component={BooksToValidate}/>
 	      <Route path="/books/:id" exact component={BookPdf}/>
 	      <Route path="/update/:id/" exact component={UpdateBook}/>
-	      <Route path="/signUp/" exact component={SignUp}/>
-	      <Route path="/signIn/" exact component={SignIn}/>
+	      <Route path="/sign-up/" exact component={SignUp}/>
+	      <Route path="/sign-in/" exact component={SignIn}/>
+	      <Route path="/logout/" exact component={Logout}/>
       </div>
     );
   }

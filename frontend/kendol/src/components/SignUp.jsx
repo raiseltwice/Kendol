@@ -21,13 +21,11 @@ export default class SignUp extends Component {
 	};
 
 	formUpload = () => {
-		console.log(this.state);
 		let formData = new FormData();
 		formData.set("username", this.state.username);
 		formData.append("password", this.state.password);
-		console.log(formData);
 		axios.post(
-			'http://localhost:8080/registration',
+			'http://localhost:8080/api/registration',
 			formData,
 			{withCredentials: true}
 		).then(response => {

@@ -7,38 +7,37 @@ export default class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			username: "Sign In",
+			authority: null,
 			message: null,
-			messageType: null
+			messageType: null,
+			linkTo: "/sign-in"
 		};
 		this.getCurrentUser = this.getCurrentUser.bind(this);
 	}
 
 
 	getCurrentUser = () => {
-		console.log(this.state);
-		let formData = new FormData();
-		formData.set("username", this.state.username);
-		formData.append("password", this.state.password);
-		console.log(formData);
-		axios.post(
-			'http://localhost:8080/registration',
-			formData,
+		axios.get(
+			'http://localhost:8080/api/user/username',
 			{withCredentials: true}
 		).then(response => {
-			if (response.data === "User already exists") {
-				this.setState({
-					message: "User already exists",
-					messageType: "danger"
-				});
+			if(response.data !== "") {
+				this.setState({username: response.data, linkTo: "/logout"})
 			}
-			else if (response.data === "Success. You can login now") {
-				this.setState({
-					message: "Success. You can login now",
-					messageType: "success"
-				});
-			}
-		})
+
+		});
+
+		axios.get(
+			'http://localhost:8080/api/user/authority',
+			{withCredentials: true}
+		).then(response => this.setState({authority: response.data}))
 	};
+
+	componentDidMount() {
+		this.getCurrentUser();
+	};
+
 
   render() {
     return (
@@ -69,18 +68,18 @@ export default class Navbar extends Component {
               </NavLink >
             </li>
             <li className="nav-item">
-	            <NavLink activeClassName="active" className="nav-link" to="/addBook">
+	            <NavLink activeClassName="active" className="nav-link" to="/add-book">
                     Add book
                 </NavLink >
             </li>
             <li className="nav-item">
-	            <NavLink activeClassName="active" className="nav-link" to="/signUp">
+	            <NavLink activeClassName="active" className="nav-link" to="/sign-up">
 		            Sign Up
 	            </NavLink >
             </li>
 	          <li className="nav-item">
-		          <NavLink activeClassName="active" className="nav-link" to="/signIn">
-			          Sign In
+		          <NavLink activeClassName="active" className="nav-link" to={this.state.linkTo}>
+			          {this.state.username}
 		          </NavLink >
 	          </li>
 	          <li className="nav-item">
