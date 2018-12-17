@@ -17,7 +17,7 @@ export default  class BookPdf extends Component {
 
 		this.state = {
 			numPages: null,
-			pageNumber: 2,
+			pageNumber: 1,
 			selectedText: null,
 			fileName: null,
 			file: null,
@@ -32,6 +32,8 @@ export default  class BookPdf extends Component {
 		this.loadPdf = this.loadPdf.bind(this);
 		this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
 		this.onDocumentLoadError = this.onDocumentLoadError.bind(this);
+		this.onLeftButtonClick = this.onLeftButtonClick.bind(this);
+		this.onRightButtonClick = this.onRightButtonClick.bind(this);
 	};
 
 	handleClick = event => {
@@ -89,26 +91,41 @@ export default  class BookPdf extends Component {
 		this.loadPdf();
 	}
 
+	onLeftButtonClick = () => {
+		let pn = this.state.pageNumber;
+		pn -= 1;
+		this.setState({pageNumber: pn});
+	};
+
+	onRightButtonClick = () => {
+		let pn = this.state.pageNumber;
+		pn += 1;
+		this.setState({pageNumber: pn});
+	};
+
 	render() {
-		const { pageNumber, numPages } = this.state;
 		const id = this.state.open ? 'no-transition-popper' : null;
 
 		return (
-			<div className="d-flex justify-content-center pdf-content">
-				<Popper className="popper-styles" id={id} open={this.state.open} anchorEl={this.state.anchorEl} placement={"top"}>
-					<Paper>
-						<Typography>{this.state.translatedText}</Typography>
-					</Paper>
-				</Popper>
-				<Document onClick={this.handleClick}
-					file={this.state.file}
-					onLoadSuccess={this.onDocumentLoadSuccess}
-		            onLoadError={this.onDocumentLoadError}
-				>
-					<Page pageNumber={pageNumber} height={window.innerHeight}
-					/>
-				</Document>
-
+			<div>
+				<div>{this.state.pageNumber} of {this.state.numPages}</div>
+				<button type="button" className="btn btn-light" onClick={this.onLeftButtonClick}>←</button>
+				<button type="button" className="btn btn-light" onClick={this.onRightButtonClick}>→</button>
+				<div className="d-flex justify-content-center pdf-content">
+					<Popper className="popper-styles" id={id} open={this.state.open} anchorEl={this.state.anchorEl} placement={"top"}>
+						<Paper>
+							<Typography>{this.state.translatedText}</Typography>
+						</Paper>
+					</Popper>
+					<Document onClick={this.handleClick}
+						file={this.state.file}
+						onLoadSuccess={this.onDocumentLoadSuccess}
+			            onLoadError={this.onDocumentLoadError}
+					>
+						<Page pageNumber={this.state.pageNumber} height={window.innerHeight}
+						/>
+					</Document>
+				</div>
 			</div>
 		);
 	}

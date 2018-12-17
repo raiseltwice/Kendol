@@ -40,12 +40,8 @@ export default class BookPreview extends Component {
 	};
 
     deleteBook = () => {
-	    axios.post(
-		    'http://localhost:8080/api/book/delete',{
-			    params: {
-				    id: this.props.id
-			    }
-		    }
+	    axios.get(
+		    'http://localhost:8080/api/book/delete/' + String(this.props.id)
 	    ).then(response => console.log(response));
 		this.props.rerender(this.props.id);
     };
@@ -74,6 +70,7 @@ export default class BookPreview extends Component {
 		          <div className="caption">
 				          {this.props.title}
 		          </div>
+
               </Link>
 	          {this.state.authority === "ADMIN" ? <div>
 		          <Link className="" to={`/update/` + this.props.id}>
@@ -82,10 +79,10 @@ export default class BookPreview extends Component {
 		          </Link>
 		          {this.props.parent === "validation" ? <img className='approve-book-control shadow-on-hover rounded-circle' onClick={this.approveBook}
 		                                                     src={require("../static/approvedbook.png")} width="25px" height="25px" /> : null}
-
 		          <img className='delete-book-control look-like-link shadow-on-hover rounded-circle' onClick={this.deleteBook}
 		               src={require("../static/deletebook.png")} width="25px" height="25px" />
 	          </div> : null}
+
 
 
 
