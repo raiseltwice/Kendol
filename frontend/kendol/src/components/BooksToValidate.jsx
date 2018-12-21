@@ -26,7 +26,6 @@ export default class BooksToValidate extends Component {
 			if(response.data !== "") {
 				this.setState({username: response.data, linkTo: "/logout"});
 			}
-
 		});
 
 		axios.get(
@@ -78,7 +77,6 @@ export default class BooksToValidate extends Component {
 
 
 	render() {
-
 		return (
 			<div>
 				{this.renderBooks()}

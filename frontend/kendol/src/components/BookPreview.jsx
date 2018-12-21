@@ -59,20 +59,16 @@ export default class BookPreview extends Component {
 	}
 
 
-      render() {
-        return (
-
-          <div className="book-content text-center col m-3">
-
-	          <Link className="" to={`/books/` + this.props.id}>
+	render() {
+		return (
+		  <div className="book-content text-center col m-3">
+		      <Link className="" to={`/books/` + this.props.id}>
 		          <img className="border" src={require("../static/pdf_image.png")} />
-
 		          <div className="caption">
 				          {this.props.title}
 		          </div>
-
-              </Link>
-	          {this.state.authority === "ADMIN" ? <div>
+		      </Link>
+		      {this.state.authority === "ADMIN" ? <div>
 		          <Link className="" to={`/update/` + this.props.id}>
 			          <img className='update-book-control shadow-on-hover rounded-circle'
 			               src={require("../static/editbook.png")} width="25px" height="25px" />
@@ -81,12 +77,8 @@ export default class BookPreview extends Component {
 		                                                     src={require("../static/approvedbook.png")} width="25px" height="25px" /> : null}
 		          <img className='delete-book-control look-like-link shadow-on-hover rounded-circle' onClick={this.deleteBook}
 		               src={require("../static/deletebook.png")} width="25px" height="25px" />
-	          </div> : null}
-
-
-
-
-          </div>
-        );
-      }
+		      </div> : null}
+		  </div>
+		);
+	}
 }

@@ -132,29 +132,3 @@ export default  class BookPdf extends Component {
 }
 
 
-
-//<p>{this.state.selectedText}</p>
-
-{/*<div>*/}
-{/*<Document onClick={this.handleClick}*/}
-{/*// getPdfFromServer*/}
-{/*//file={require("../../../../pdf_storage/ticket.pdf")}*/}
-{/*file={require("./kek.pdf")}*/}
-{/*onLoadSuccess={this.onDocumentLoad}*/}
-{/*>*/}
-{/*<Page pageNumber={pageNumber} />*/}
-{/*</Document>*/}
-{/*<Popper id={id} open={open} anchorEl={anchorEl} transition>*/}
-{/*{({ TransitionProps }) => (*/}
-{/*<Fade {...TransitionProps} timeout={350}>*/}
-{/*<Paper>*/}
-{/*<Typography className={classes.typography}>The content of the Popper.</Typography>*/}
-{/*</Paper>*/}
-{/*</Fade>*/}
-{/*)}*/}
-{/*</Popper>*/}
-
-
-{/*</div>*/}
-
-

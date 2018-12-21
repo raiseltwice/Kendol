@@ -9,7 +9,6 @@ class Logout extends Component {
 	}
 
 	logout = () => {
-
 		axios.get(
 			'http://localhost:8080/logout',
 			{withCredentials: true}

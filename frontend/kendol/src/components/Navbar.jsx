@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { Link, NavLink  } from "react-router-dom";
-import axios from "axios";
+import React, {Component} from "react";
+import {Link, NavLink} from "react-router-dom";
 
 
 export default class Navbar extends Component {
@@ -22,11 +21,9 @@ export default class Navbar extends Component {
 		else this.setState({linkTo: "/sign-in"});
 	};
 
-
-	componentWillReceiveProps(newProps) {
-
-		if(newProps.username !== null) {
-			this.setState({username: newProps.username, authority: newProps.authority, linkTo: "/logout"});
+	componentWillReceiveProps(props) {
+		if(props.username !== null) {
+			this.setState({username: props.username, authority: props.authority, linkTo: "/logout"});
 			console.log("set link to logout");
 		} else {
 			this.setState({username: "Sign In", authority: null, linkTo: "/sign-in"});
@@ -40,8 +37,6 @@ export default class Navbar extends Component {
 
 
 	render() {
-		// this.setState({username: this.props.username});
-		// this.getLinkBasedOnAuth();
 	    return (
 	      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 		      <Link className="" to="/books">
